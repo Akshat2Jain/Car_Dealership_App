@@ -26,12 +26,15 @@ const DealerSignUp = () => {
     console.log(formData);
     event.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8080/dealer/signup", {
-        username: formData.dealerName,
-        email: formData.email,
-        password: formData.password,
-        location: formData.location,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_APP_HOST}/dealer/signup`,
+        {
+          username: formData.dealerName,
+          email: formData.email,
+          password: formData.password,
+          location: formData.location,
+        }
+      );
       message.success(res.data.msg);
       navigate("/login");
     } catch (error) {

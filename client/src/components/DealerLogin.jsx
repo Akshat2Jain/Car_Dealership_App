@@ -23,10 +23,13 @@ const DealerLogin = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/dealer/signin", {
-        password: formData.password,
-        email: formData.email,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_HOST}/dealer/signin`,
+        {
+          password: formData.password,
+          email: formData.email,
+        }
+      );
       // if (response.response)
       message.success(response.data.msg);
       localStorage.setItem("token", response.data.token);

@@ -24,12 +24,15 @@ const UserSignUp = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8080/user/signup", {
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-        location: formData.location,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_APP_HOST}/user/signup`,
+        {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+          location: formData.location,
+        }
+      );
       message.success(res.data.msg);
       navigate("/login");
     } catch (error) {
