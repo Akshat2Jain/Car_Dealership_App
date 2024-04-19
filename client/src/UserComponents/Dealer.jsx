@@ -17,7 +17,7 @@ const Dealer = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:8080/user/getUser",
+        `${import.meta.env.VITE_APP_HOST}/user/getUser`,
         {
           email: decoded.email,
         },
