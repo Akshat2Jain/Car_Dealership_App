@@ -10,13 +10,14 @@ router.post("/signup", async function (req, res) {
   const password = req.body.password;
   const username = req.body.username;
   const loaction = req.body.location;
+  const sanitizedEmail = email.trim().toLowerCase();
   try {
-    const dealerexits = await Dealer.findOne({ email: email });
+    const dealerexits = await Dealer.findOne({ email: sanitizedEmail });
     if (dealerexits) {
       return res.status(200).json({ msg: "Dealer already Created" });
     }
     await Dealer.create({
-      email: email,
+      email: sanitizedEmail,
       password: password,
       location: loaction,
       username: username,
@@ -31,9 +32,10 @@ router.post("/signup", async function (req, res) {
 router.post("/signin", async function (req, res) {
   const email = req.body.email;
   const password = req.body.password;
+  const sanitizedEmail = email.trim().toLowerCase();
   try {
     const dealer = await Dealer.findOne({
-      email: email,
+      email: sanitizedEmail,
     });
     const dealer2 = await Dealer.findOne({
       password: password,
@@ -45,7 +47,7 @@ router.post("/signin", async function (req, res) {
     if (!dealer2) {
       return res.status(403).json({ msg: "Wrong Password" });
     }
-    const token = jwt.sign({ email: email }, JWT_SECRET);
+    const token = jwt.sign({ email: sanitizedEmail }, JWT_SECRET);
     res.status(200).json({ msg: "Login Succesfully", token: token });
   } catch (error) {
     console.log(error);

@@ -11,12 +11,13 @@ router.post("/signup", async function (req, res) {
     const password = req.body.password;
     const username = req.body.username;
     const loaction = req.body.location;
-    const userexits = await User.findOne({ email: email });
+    const sanitizedEmail = email.trim().toLowerCase();
+    const userexits = await User.findOne({ email: sanitizedEmail });
     if (userexits) {
       return res.status(200).json({ msg: "User already Created" });
     }
     const response = await User.create({
-      email: email,
+      email: sanitizedEmail,
       password: password,
       location: loaction,
       username: username,
@@ -32,8 +33,9 @@ router.post("/signin", async function (req, res) {
   try {
     const email = req.body.email;
     const password = req.body.password;
+    const sanitizedEmail = email.trim().toLowerCase();
     const user = await User.findOne({
-      email: email,
+      email: sanitizedEmail,
     });
     const user2 = await User.findOne({
       password: password,
@@ -45,7 +47,7 @@ router.post("/signin", async function (req, res) {
     if (!user2) {
       return res.status(400).json({ msg: "Wrong Password" });
     }
-    const token = jwt.sign({ email: email }, JWT_SECRET);
+    const token = jwt.sign({ email: sanitizedEmail }, JWT_SECRET);
     res.status(200).json({ msg: "Login Succesfully", token: token });
   } catch (error) {
     console.log(error);
