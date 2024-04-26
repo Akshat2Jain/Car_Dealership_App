@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const { JWT_SECRET } = require("../config");
 const { Dealer, Cars, Deal, SoldCars } = require("../db/db");
 const dealerMiddleware = require("../middlewares/dealer");
@@ -11,6 +12,7 @@ router.post("/signup", async function (req, res) {
   const username = req.body.username;
   const loaction = req.body.location;
   const sanitizedEmail = email.trim().toLowerCase();
+  const hashedPassword = await bcrypt.hash(password, 10);
   try {
     const dealerexits = await Dealer.findOne({ email: sanitizedEmail });
     if (dealerexits) {
@@ -18,7 +20,7 @@ router.post("/signup", async function (req, res) {
     }
     await Dealer.create({
       email: sanitizedEmail,
-      password: password,
+      password: hashedPassword,
       location: loaction,
       username: username,
     });
@@ -44,7 +46,8 @@ router.post("/signin", async function (req, res) {
     if (!dealer) {
       return res.status(403).json({ msg: "Dealer not found with this email" });
     }
-    if (!dealer2) {
+    const isMatch = await bcrypt.compare(password, dealer2.password);
+    if (!isMatch) {
       return res.status(403).json({ msg: "Wrong Password" });
     }
     const token = jwt.sign({ email: sanitizedEmail }, JWT_SECRET);

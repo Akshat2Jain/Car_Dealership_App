@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const { JWT_SECRET } = require("../config");
 const { User, Cars, SoldCars } = require("../db/db");
 const userMiddleware = require("../middlewares/user");
@@ -12,13 +13,14 @@ router.post("/signup", async function (req, res) {
     const username = req.body.username;
     const loaction = req.body.location;
     const sanitizedEmail = email.trim().toLowerCase();
+    const hashedPassword = await bcrypt.hash(password, 10);
     const userexits = await User.findOne({ email: sanitizedEmail });
     if (userexits) {
       return res.status(200).json({ msg: "User already Created" });
     }
     const response = await User.create({
       email: sanitizedEmail,
-      password: password,
+      password: hashedPassword,
       location: loaction,
       username: username,
     });
@@ -37,14 +39,12 @@ router.post("/signin", async function (req, res) {
     const user = await User.findOne({
       email: sanitizedEmail,
     });
-    const user2 = await User.findOne({
-      password: password,
-    });
 
     if (!user) {
       return res.status(400).json({ msg: "User not found with this email" });
     }
-    if (!user2) {
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
       return res.status(400).json({ msg: "Wrong Password" });
     }
     const token = jwt.sign({ email: sanitizedEmail }, JWT_SECRET);
