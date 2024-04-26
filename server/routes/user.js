@@ -112,4 +112,29 @@ router.get("/ownedVechile", userMiddleware, async function (req, res) {
   }
 });
 
+router.post("/updateProfile", userMiddleware, async function (req, res) {
+  try {
+    const username = req.body.username;
+    const location = req.body.location;
+    const token = req.headers.authorization;
+    const words = token.split(" ");
+    const jwtToken = words[1];
+    const decode = jwt.verify(jwtToken, JWT_SECRET);
+    const user = await User.findOne({ email: decode.email });
+    const updatedUser = await User.updateOne(
+      { _id: user._id },
+      {
+        username: username,
+        location: location,
+      }
+    );
+    res.status(200).json({
+      msg: "Profile Updated Succesfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Something went wrong" });
+  }
+});
+
 module.exports = router;

@@ -2,8 +2,8 @@
 
 ## Tasks
 
-- [ ] Convert email to lowercase
-- [ ] Bcrypt the password and then check while logging whether they match or not
+- [x] Convert email to lowercase
+- [x] Bcrypt the password and then check while logging whether they match or not
 - [ ] Improve the UI of the homepage
 - [ ] Implement buy deals endpoint
 - [ ] Update profile functionality

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import UserNavabr from "./UserNavabr";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loadin from "../components/Loadin";
 
@@ -9,6 +10,7 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
   const decoded = jwtDecode(token);
+  const navigate = useNavigate();
   async function getUser() {
     try {
       setLoading(true);
@@ -27,7 +29,9 @@ const UserProfile = () => {
       console.log(error);
     }
   }
-
+  const handleEditProfile = () => {
+    navigate("/user/updateProfile");
+  };
   useEffect(() => {
     getUser();
   }, []);
@@ -92,6 +96,14 @@ const UserProfile = () => {
                 </div>
 
                 {/* Edit profile button (optional) */}
+                <div className="flex justify-end">
+                  <button
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded"
+                    onClick={handleEditProfile}
+                  >
+                    Edit Profile
+                  </button>
+                </div>
               </div>
             </div>
           </div>

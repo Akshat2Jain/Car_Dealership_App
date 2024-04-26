@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import UpdateProfile from "./UserComponents/UpdateProfile";
 import SignUpPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from "./protectedRoutes/ProtectedRoute";
@@ -84,6 +85,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <DealerInfo />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user/updateProfile/"
+            element={
+              <ProtectedRoute>
+                <UpdateProfile />
               </ProtectedRoute>
             }
           />
