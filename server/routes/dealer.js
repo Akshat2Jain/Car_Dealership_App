@@ -39,14 +39,11 @@ router.post("/signin", async function (req, res) {
     const dealer = await Dealer.findOne({
       email: sanitizedEmail,
     });
-    const dealer2 = await Dealer.findOne({
-      password: password,
-    });
 
     if (!dealer) {
       return res.status(403).json({ msg: "Dealer not found with this email" });
     }
-    const isMatch = await bcrypt.compare(password, dealer2.password);
+    const isMatch = await bcrypt.compare(password, dealer.password);
     if (!isMatch) {
       return res.status(403).json({ msg: "Wrong Password" });
     }
@@ -229,4 +226,29 @@ router.get("/getDealer", dealerMiddleware, async function (req, res) {
     res.status(500).json({ msg: "Something Went Wrong" });
   }
 });
+router.post("/updateProfile", dealerMiddleware, async function (req, res) {
+  try {
+    const username = req.body.username;
+    const location = req.body.location;
+    const token = req.headers.authorization;
+    const words = token.split(" ");
+    const jwtToken = words[1];
+    const decode = jwt.verify(jwtToken, JWT_SECRET);
+    const dealer = await Dealer.findOne({ email: decode.email });
+    const updatedDealer = await Dealer.updateOne(
+      { _id: dealer._id },
+      {
+        username: username,
+        location: location,
+      }
+    );
+    res.status(200).json({
+      msg: "Profile Updated Succesfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Something went wrong" });
+  }
+});
+
 module.exports = router;

@@ -4,41 +4,36 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { message } from "antd";
 
-const UpdateProfile = () => {
+const DealerUpdateProfile = () => {
   const [username, setUsername] = useState("");
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
-  const decoded = jwtDecode(token);
   const navigate = useNavigate();
 
-  async function getUser() {
+  async function getDealer() {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_HOST}/user/getUser`,
-        {
-          email: decoded.email,
-        },
+      const res = await axios.get(
+        `${import.meta.env.VITE_APP_HOST}/dealer/getDealer`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setUsername(response.data.user.username);
-      setLocation(response.data.user.location);
+      setLocation(res.data.dealer.location);
+      setUsername(res.data.dealer.username);
 
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
   }
-
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_APP_HOST}/user/updateProfile`,
+        `${import.meta.env.VITE_APP_HOST}/dealer/updateProfile`,
         {
           username: username,
           location: location,
@@ -49,14 +44,13 @@ const UpdateProfile = () => {
       );
       message.success(res.data.msg);
       setLoading(false);
-      navigate("/user/dashboard/profile");
+      navigate("/dealer/dashboard/profile");
     } catch (error) {
       console.log(error);
     }
   }
-
   useEffect(() => {
-    getUser();
+    getDealer();
   }, []);
   return (
     <>
@@ -115,4 +109,4 @@ const UpdateProfile = () => {
   );
 };
 
-export default UpdateProfile;
+export default DealerUpdateProfile;

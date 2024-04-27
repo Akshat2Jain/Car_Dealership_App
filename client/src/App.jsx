@@ -15,6 +15,7 @@ import DealerDshboard from "./pages/DealerDshboard";
 import DealerProfile from "./DealerComponents/DealerProfile";
 import PostCars from "./DealerComponents/PostCars";
 import PostDeals from "./DealerComponents/PostDeals";
+import DealerUpdateProfile from "./DealerComponents/DealerUpdateProfile";
 
 const App = () => {
   return (
@@ -93,6 +94,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <UpdateProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dealer/updateProfile/"
+            element={
+              <ProtectedRoute>
+                <DealerUpdateProfile />
               </ProtectedRoute>
             }
           />

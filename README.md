@@ -6,7 +6,7 @@
 - [x] Bcrypt the password and then check while logging whether they match or not
 - [ ] Improve the UI of the homepage
 - [ ] Implement buy deals endpoint
-- [ ] Update profile functionality
+- [x] Update profile functionality
 - [ ] Implement forgot password functionality
 
 ## Instructions to Contribute

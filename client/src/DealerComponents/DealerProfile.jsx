@@ -4,12 +4,14 @@ import axios from "axios";
 import Loadin from "../components/Loadin";
 import DealerCard from "./DealerCard";
 import DealCard from "./DealCard";
+import { useNavigate } from "react-router-dom";
 
 const DealerProfile = () => {
   const [showdealer, setshowDealer] = useState("");
   const [cars, setCars] = useState([]);
   const [deals, setDeals] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
   async function getDealer() {
     try {
@@ -28,6 +30,9 @@ const DealerProfile = () => {
       console.log(error);
     }
   }
+  const handleEditProfile = () => {
+    navigate("/dealer/updateProfile");
+  };
   useEffect(() => {
     getDealer();
   }, []);
@@ -92,6 +97,14 @@ const DealerProfile = () => {
                 </div>
 
                 {/* Edit profile button (optional) */}
+                <div className="flex justify-end">
+                  <button
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded"
+                    onClick={handleEditProfile}
+                  >
+                    Edit Profile
+                  </button>
+                </div>
               </div>
             </div>
             <h3 className="mx-4 text-lg font-semibold text-purple-600">
