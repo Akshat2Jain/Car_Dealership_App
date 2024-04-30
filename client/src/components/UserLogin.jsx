@@ -37,6 +37,10 @@ const UserLogin = () => {
       message.error(error.response.data.msg);
     }
   };
+
+  const handleForgotPassword = async () => {
+    navigate("/resetPassword");
+  };
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -80,6 +84,14 @@ const UserLogin = () => {
         >
           Login as User
         </button>
+        <div className="mt-4 text-right">
+          <button
+            className="text-blue-600 hover:text-blue-700 font-medium"
+            onClick={handleForgotPassword}
+          >
+            User Forgot Password?
+          </button>
+        </div>
       </form>
     </>
   );

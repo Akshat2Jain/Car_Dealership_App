@@ -39,6 +39,9 @@ const DealerLogin = () => {
       message.error(error.response.data.msg);
     }
   };
+  const handleForgotPassword = async () => {
+    navigate("/dealerResetPassword");
+  };
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -83,6 +86,14 @@ const DealerLogin = () => {
         >
           Login as Dealer
         </button>
+        <div className="mt-4 text-right">
+          <button
+            className="text-blue-600 hover:text-blue-700 font-medium"
+            onClick={handleForgotPassword}
+          >
+            Dealer Forgot Password?
+          </button>
+        </div>
       </form>
     </>
   );

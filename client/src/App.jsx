@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import UpdateProfile from "./UserComponents/UpdateProfile";
 import SignUpPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
+import UserResetPassword from "./pages/UserResetPassword";
 import ProtectedRoute from "./protectedRoutes/ProtectedRoute";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -16,6 +17,7 @@ import DealerProfile from "./DealerComponents/DealerProfile";
 import PostCars from "./DealerComponents/PostCars";
 import PostDeals from "./DealerComponents/PostDeals";
 import DealerUpdateProfile from "./DealerComponents/DealerUpdateProfile";
+import DealerPassword from "./pages/DealerPassword";
 
 const App = () => {
   return (
@@ -25,6 +27,9 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/resetPassword" element={<UserResetPassword />} />
+          <Route path="/dealerResetPassword" element={<DealerPassword />} />
+
           <Route
             path="/dealer/dashboard"
             element={

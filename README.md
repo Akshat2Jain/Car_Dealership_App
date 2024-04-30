@@ -7,7 +7,7 @@
 - [ ] Improve the UI of the homepage
 - [ ] Implement buy deals endpoint
 - [x] Update profile functionality
-- [ ] Implement forgot password functionality
+- [x] Implement forgot password functionality
 
 ## Instructions to Contribute
 

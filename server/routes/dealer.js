@@ -251,4 +251,28 @@ router.post("/updateProfile", dealerMiddleware, async function (req, res) {
   }
 });
 
+router.post("/forgotPassword", async function (req, res) {
+  try {
+    const password = req.body.confirm;
+    const email = req.body.email;
+    const user = await Dealer.findOne({
+      email: email,
+    });
+
+    if (!user) {
+      return res.status(400).json({ msg: "User not found with this email" });
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const updatedUser = await Dealer.updateOne(
+      { _id: user._id },
+      {
+        password: hashedPassword,
+      }
+    );
+    res.status(200).json({ msg: "Password Change Succesfully" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 module.exports = router;
